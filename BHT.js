@@ -28,4 +28,48 @@ class BHT{
             this.historico[histIndex] = (historico[histIndex] >>> 1);
         }
     }
+
+    getPercent(){
+        return hits/(hits + miss);
+    }
+
+    getHits(){
+        return this.hits;
+    }
+
+    getMiss(){
+        return this.miss;
+    }
+}
+
+var fileAsString;
+var lineNumber;
+var bht;
+var done = false;
+
+document.getElementById('file').onchange = function(){
+
+    var file = this.files[0];
+  
+    var reader = new FileReader();
+    reader.onload = function(){
+        lineNumber = -1;
+        fileAsString = this.result.split('\n');
+    };
+    reader.readAsText(file);
+}
+
+function computeLine(){ // não chamem isso, front!!!!!!!
+    var line = fileAsString[lineNumber].split(' ');
+    bht.doTheThing(line[0], line[1]);
+}
+
+function nextLine(){
+    lineNumber += 1;
+    if (lineNumber >= fileAsString.length){
+        done = true;
+    } else {
+        computeLine();
+        done = false;
+    }
 }
