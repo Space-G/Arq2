@@ -11,26 +11,26 @@ class BHT{
     }
 
     doTheThing(endereco, resultado){
-        histIndex = (parseInt(endereco, 16) >>> 2) % m;
-        predicao = counter[historico[histIndex]];
+        let histIndex = (parseInt(endereco, 16) >>> 2) % m;
+        let predicao = this.counter[this.historico[histIndex]];
 
-        if ((predicao <= 1 && resultado == 'n') || (predicao >= 2 && resultado == 't')){
+        if ((predicao <= 1 && resultado == 'N') || (predicao >= 2 && resultado == 'T')){
             this.hits += 1;
         } else {
             this.miss += 1;
         }
 
-        if (resultado == 't'){
-            this.counter[historico[histIndex]] += (predicao < 4) ? 1 : 0;
-            this.historico[histIndex] = (historico[histIndex] >>> 1) + (2 ** (n - 1));
+        if (resultado == 'T'){
+            this.counter[this.historico[histIndex]] += (predicao < 4) ? 1 : 0;
+            this.historico[histIndex] = (this.historico[histIndex] >>> 1) + (2 ** (n - 1));
         } else {
-            this.counter[historico[histIndex]] -= (predicao > 0) ? 1 : 0;
-            this.historico[histIndex] = (historico[histIndex] >>> 1);
+            this.counter[this.historico[histIndex]] -= (predicao > 0) ? 1 : 0;
+            this.historico[histIndex] = (this.historico[histIndex] >>> 1);
         }
     }
 
     getPercent(){
-        return hits/(hits + miss);
+        return parseInt(this.hits/(this.hits + this.miss)*100);
     }
 
     getHits(){
@@ -42,13 +42,12 @@ class BHT{
     }
 }
 
-var fileAsString;
-var lineNumber;
-var bht;
+var fileAsString = Array();
+var lineNumber = -1;
+var bht = new BHT(1, 1);
 var done = false;
 
 document.getElementById('file').onchange = function(){
-
     var file = this.files[0];
   
     var reader = new FileReader();
