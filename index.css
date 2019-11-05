@@ -1,0 +1,65 @@
+* {
+	
+	font-family: 'Courier New', Courier, monospace;
+}
+
+.body {
+	min-height: 100vh;
+	margin-top: 70px;
+}
+
+.menu {
+	text-align: center;
+	padding-bottom: 10px;
+	margin-bottom: 100px;
+}
+
+.item {
+	margin-top: 0.5em;
+	margin-bottom: 4em;
+}
+
+.sub-item {
+	margin-bottom: 1em;
+}
+
+.input-number {
+	height: 2em;
+	background-color: white;
+	border: 1px solid lightgray;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+.input-file {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.input-file:active {
+	text-decoration: none !important;
+	outline: none !important;
+}
+
+.input-file:focus {
+	text-decoration: none !important;
+	outline: none !important;
+}
+
+table, td{
+	border: 1px solid black !important;
+}
+
+.botao {
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: white;
+	color: black;
+	width: 70px;
+	height: 30px;
+}
+
+.botao:hover {
+	background-color: black;
+	color: white;
+}
