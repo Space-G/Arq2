@@ -1,100 +1,89 @@
 class BHT{
-	constructor(m,n){
-		this.m = m;
-		this.address = Array();
-		this.pred = Array();
-		this.hist = Array();
-		this.hits = Array();
-		this.miss = Array();
-	}
+    constructor(m,n){
+        this.m = m;
+        this.historicoTableSize = Math.pow(2, m);
+        this.historico = new Array(this.historicoTableSize);
+        this.historico.fill(0);
+        this.n = n;
+        this.counterSize = Math.pow(2, n);
+        this.counter = new Array(this.counterSize).fill(2);
+        this.hits = 0;
+        this.miss = 0;
+    }
 
-	doTheThing(endereco, resultado){
-		let predicao = 0;
-		if(!this.address.includes(endereco)){
-			this.address.push(endereco);
-			this.pred.push(2);
-		}
-		let pos = ((parseInt(endereco, 16) >>> 2) % Math.pow(2,this.m)) + 1;
-		console.log(pos);
-		predicao = this.pred[pos];
-		document.getElementById("myTable").rows[pos].cells[3].innerHTML=resultado;
-		let end = document.getElementById("myTable").rows[pos].cells[1].innerHTML;
-		console.log(end);
-		if(endereco !== end){
-			predicao=2;
-			this.pred[pos]=2;
-		}
-		console.log("Predicao: "+predicao);
-		console.log("Resultado: "+resultado);
-		if ((predicao <= 1 && resultado == 'N') || (predicao >= 2 && resultado == 'T')){
-			if(predicao == 1){
-				this.pred[pos] -= 1;
-			} else if (predicao == 2){
-				this.pred[pos] += 1;
-			}
-			this.hits[pos] += 1;
-		} else {
-			if(predicao == 0){
-				this.pred[pos] += 1;
-			} else if (predicao == 1){
-				this.pred[pos] += 2;
-			} else if (predicao == 2){
-				this.pred[pos] -= 2;
+    doTheThing(endereco, resultado){
+        var histIndex = (parseInt(endereco, 16) >>> 2) % this.historicoTableSize;
+        var predicao = this.counter[this.historico[histIndex]];
+
+        if ((predicao <= 1 && resultado == "N") || (predicao >= 2 && resultado == "T")){
+            this.hits += 1;
+        } else {
+            this.miss += 1;
+        }
+
+        var posCounter = this.historico[histIndex];
+
+        if (resultado == "T"){
+			if (document.getElementById("bitch").value == 2){
+				if (predicao == 0){
+					this.counter[posCounter] = 1;
+				} else{
+					this.counter[posCounter] = 3;
+				}
 			} else {
-				this.pred[pos] -= 1;
+				this.counter = 1;
 			}
-			this.miss[pos] += 1;
-		}
-		if(this.pred[pos]==0){
-			this.hist[pos]="N,N";
-		}
-		else if(this.pred[pos]==1){
-			this.hist[pos]="N,T";
-		}
-		else if(this.pred[pos]==2){
-			this.hist[pos]="T,N";
-		}
-		else{
-			this.hist[pos]="T,T";
-		}
-		document.getElementById("myTable").rows[pos].cells[1].innerHTML=endereco;
-		(predicao<=1) ? predicao="NT" : predicao="T";
-		document.getElementById("myTable").rows[pos].cells[4].innerHTML=predicao;
-		document.getElementById("myTable").rows[pos].cells[2].innerHTML= this.hist[pos];
-	}
+            this.historico[histIndex] = (this.historico[histIndex] >>> 1) + Math.pow(2, (this.n - 1));
+        } else {
+			if(document.getElementById("bitch").value == 2){
+				if (predicao == 3){
+					this.counter[posCounter] = 2;
+				} else{
+					this.counter[posCounter] = 0;
+				}
+			} else{
+				this.counter = 0;
+			}
+            this.historico[histIndex] = (this.historico[histIndex] >>> 1);
+        }
+    }
 
-	getPercent(){
-		return parseInt(this.hits/(this.hits + this.miss)*100);
-	}
+    getPercent(){
+        return parseInt(this.hits/(this.hits + this.miss)*100);
+    }
 
-	getHits(){
-		return this.hits;
-	}
+    getHits(){
+        return this.hits;
+    }
 
-	getMiss(){
-		return this.miss;
-	}
+    getMiss(){
+        return this.miss;
+    }
 }
 
-let bht;
-let fileAsString = Array();
-let lineNumber = -1;
-let done = false;
-let line;
+var fileAsString = Array();
+var lineNumber = -1;
+var bht = new BHT(1, 1);
+var done = false;
 
-function fileRead(){
-	let file = document.getElementById("file-id").files[0];
-	let reader = new FileReader();
-	reader.onload = function(){
-		lineNumber = -1;
-		fileAsString = this.result.split('\n');
-	};
-	reader.readAsText(file);
+document.getElementById('file').onchange = function(){
+    var file = this.files[0];
+    bht = new BHT(getElementById("m").value, getElementById("n").value);
+
+    var reader = new FileReader();
+    reader.onload = function(){
+        lineNumber = -1;
+        fileAsString = this.result.split('\n');
+    };
+    reader.readAsText(file);
+
+
+    
 }
 
 function computeLine(){ // não chamem isso, front!!!!!!!
-	line = fileAsString[lineNumber].split(' ');
-	bht.doTheThing(line[0], line[1]);
+    var line = fileAsString[lineNumber].split(' ');
+    bht.doTheThing(line[0], line[1]);
 }
 
 function go(){
@@ -141,11 +130,11 @@ function go(){
 	}
 }
 function updateRowInTable(){
-	lineNumber += 1;
-	if (lineNumber >= fileAsString.length){
-		done = true;
-	} else {
-		computeLine();
-		done = false;
-	}
+    lineNumber += 1;
+    if (lineNumber >= fileAsString.length){
+        done = true;
+    } else {
+        computeLine();
+        done = false;
+    }
 }
