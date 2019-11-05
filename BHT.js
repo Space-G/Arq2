@@ -24,13 +24,17 @@ class BHT{
         var posCounter = this.historico[histIndex];
 
         if (resultado == "T"){
-            if (predicao < 3){
-                this.counter[posCounter]++;
+            if (predicao == 0){
+                this.counter[posCounter] = 1;
+            } else{
+                this.counter[posCounter] = 3;
             }
             this.historico[histIndex] = (this.historico[histIndex] >>> 1) + Math.pow(2, (this.n - 1));
         } else {
-            if (predicao > 0){
-                this.counter[posCounter]--;
+            if (predicao == 3){
+                this.counter[posCounter] = 2;
+            } else{
+                this.counter[posCounter] = 0;
             }
             this.historico[histIndex] = (this.historico[histIndex] >>> 1);
         }
