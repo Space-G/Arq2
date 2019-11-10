@@ -60,14 +60,13 @@ class BHT{
 				}
 			}
 		}
-		
 		if (predicao == 0){
 			predicao = "N";
 		}
 		else if ((predicao == 1 && this.n == 1) || predicao == 3){
 			predicao = "T";
 		}
-		else if (predicao == 1 && this.n == 2){
+		else if (predicao == 1){
 			predicao = "N*";
 		}
 		else if (predicao == 2){
@@ -149,6 +148,15 @@ function computeLine(){ // não chamem isso, front!!!!!!!
 	bht.doTheThing(line[0], line[1]);
 }
 
+function radio() {
+	var rbs = document.getElementsByName('n');
+	for (var i=0, iLen=rbs.length; i<iLen; i++) {
+		if (rbs[i].checked) {
+			return rbs[i].value;
+		}
+	}
+}
+
 function go(){
 	//mudar os hidden;
 	let menu1 = document.getElementById("menu-1");
@@ -157,16 +165,7 @@ function go(){
 	menu2.hidden = "";
 	let table = document.getElementById("myTable");
 	let m = document.getElementById("m").value;
-	let n = function() {
-		var rbs = document.getElementsByName('n');
-	  
-		for (var i=0, iLen=rbs.length; i<iLen; i++) {
-	  
-		  if (rbs[i].checked) {
-			return rbs[i].value;
-		  }
-		}
-	  }
+	let n = radio();
 	let m2 = 1;
 	
 	fileRead();
