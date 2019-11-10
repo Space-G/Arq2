@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Arq2</title>
+	<title>Preditor BHT</title>
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -16,14 +16,15 @@
 		<div class="menu" id="menu-1">
 			<div class="item">
 				<div class="sub-item">Digite a quantidade de bits de PC a ser usada:</div>
-				<div><input class="input-number" id="m" type="number" value="0" min="0"></div>
+				<div><input class="input-number" id="m" type="number" value="3" min="0"></div>
 			</div>
 			<div class="item">
-				<div class="sub-item">Escolha o preditor:</div>
-				<div><input class="input-number" id="n" type="number" value="1" min="1" max="2"></div>
+				<div class="sub-item">Escolha a quantidade de bits do preditor:</div>
+				<div><input type="radio" name="n" value="1"> 1<br>
+					 <input type="radio" name="n" value="2" checked="checked"> 2<br></div>
 			</div>
 			<div class="item">
-				<div class="sub-item">Selecione o arquivo a ser usado:</div>
+				<div class="sub-item">Selecione o arquivo a ser utilizado:</div>
 				<div><input class="input-file" id="file-id" type="file"></div>
 			</div>
 			<div class="item">
@@ -32,22 +33,18 @@
 		</div>
 		<div class="menu" hidden="hidden" id="menu-2">
 			<div class="item">
-				<div class="sub-item">Vetor de registradores:</div>
-				<div>{aqui se encontra o vetor de registradores}</div>
-			</div>
-			<div class="item">
-				<div class="sub-item">Tabela:</div>
+				<div class="sub-item negrito">Tabela de resultados</div>
 				<div>
 					<table class="table" id="myTable">
 						<tr>
-							<td>id</td>
-							<td>endereco</td>
-							<td>historico</td>
-							<td>realizado</td>
-							<td>predito</td>
-							<td>acertos</td>
-							<td>erros</td>
-							<td>porcentagem</td>
+							<td class="negrito">id</td>
+							<td class="negrito">endereco</td>
+							<td class="negrito">historico</td>
+							<td class="negrito">realizado</td>
+							<td class="negrito">predito</td>
+							<td class="negrito">acertos</td>
+							<td class="negrito">erros</td>
+							<td class="negrito">porcentagem</td>
 						</tr>
 					</table>
 				</div>

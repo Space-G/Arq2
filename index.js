@@ -20,11 +20,6 @@ class BHT{
 			allHist+=dec2bin(this.historico[b]);
 			allHist+=' ';
 		}
-		console.log("Endereco: "+endereco);
-		console.log("Resultado: "+resultado);
-		console.log("predPos: "+predPos);
-		console.log("Predicao: "+predicao);
-		console.log("Historico: "+allHist);
 		
         let hueAux = 116;
 
@@ -162,7 +157,16 @@ function go(){
 	menu2.hidden = "";
 	let table = document.getElementById("myTable");
 	let m = document.getElementById("m").value;
-	let n = document.getElementById("n").value;
+	let n = function() {
+		var rbs = document.getElementsByName('n');
+	  
+		for (var i=0, iLen=rbs.length; i<iLen; i++) {
+	  
+		  if (rbs[i].checked) {
+			return rbs[i].value;
+		  }
+		}
+	  }
 	let m2 = 1;
 	
 	fileRead();
