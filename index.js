@@ -9,6 +9,7 @@ class BHT{
 		this.hits.fill(0);
 		this.miss = new Array(this.tableSize);
 		this.miss.fill(0);
+        this.animationQueue = new Array(this.tableSize);
 	}
 
 	doTheThing(endereco, resultado){
@@ -25,6 +26,8 @@ class BHT{
 		console.log("Predicao: "+predicao);
 		console.log("Historico: "+allHist);
 		
+        let hueAux = 116;
+
 		//preditor de 1 bit
 		if(this.n == 1){
 			//acertou a predicao
@@ -35,6 +38,7 @@ class BHT{
 			else {
 				this.miss[predPos]++;
 				(predicao == 0) ? this.historico[predPos] = 1 : this.historico[predPos] = 0;
+                hueAux = 0;
 			}
 		}
 		//preditor de 2 bits
@@ -51,6 +55,7 @@ class BHT{
 			}
 			//errou a predicao
 			else {
+                hueAux = 0;
 				this.miss[predPos]++;
 				if (predicao <= 1){
 					this.historico[predPos]++;
@@ -64,10 +69,10 @@ class BHT{
 		if (predicao == 0){
 			predicao = "N";
 		}
-		else if ((predicao == 1 && n == 1) || predicao == 3){
+		else if ((predicao == 1 && this.n == 1) || predicao == 3){
 			predicao = "T";
 		}
-		else if (predicao == 1 && n == 2){
+		else if (predicao == 1 && this.n == 2){
 			predicao = "N*";
 		}
 		else if (predicao == 2){
@@ -85,10 +90,10 @@ class BHT{
 		else if (historico == 3){
 			historico = "T,T";
 		}
-		else if (historico == 0 && n == 1){
+		else if (historico == 0 && this.n == 1){
 			historico = "N";
 		}
-		else if (historico == 1 && n == 1){
+		else if (historico == 1 && this.n == 1){
 			historico = "T";
 		}
 		else if (historico == 0){
@@ -105,6 +110,8 @@ class BHT{
 		document.getElementById("myTable").rows[predPos+1].cells[5].innerHTML = this.hits[predPos];
 		document.getElementById("myTable").rows[predPos+1].cells[6].innerHTML = this.miss[predPos];
 		document.getElementById("myTable").rows[predPos+1].cells[7].innerHTML = this.getPercent(predPos);
+        window.clearTimeout(this.animationQueue[predPos]);
+        this.animationQueue[predPos] = window.setTimeout("animar("+hueAux+", 50, "+ (predPos+1) +")",7);
 		
 		
 	}
@@ -201,3 +208,15 @@ function updateRowInTable(){
 		done = false;
 	}
 }
+function animar(hue, ilum, elementRow){
+    let element = document.getElementById("myTable").rows[elementRow];
+    ilum += 0.5;
+    let str = 'hsl(' + hue + ',100%,' + ilum + '%)';
+    element.style.backgroundColor = str;
+    let otherStr = "animar("+hue+", "+ilum+", "+elementRow+")";
+    if (ilum >= 90){
+        element.style.backgroundColor = 'hsl('+hue+',100%,90%)';
+    } else { bht.animationQueue[elementRow -1] = window.setTimeout(otherStr,5);}
+}
+
+
