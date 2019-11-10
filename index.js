@@ -67,7 +67,7 @@ class BHT{
 		else if ((predicao == 1 && n == 1) || predicao == 3){
 			predicao = "T";
 		}
-		else if (predicao == 1){
+		else if (predicao == 1 && n == 2){
 			predicao = "N*";
 		}
 		else if (predicao == 2){
@@ -107,55 +107,6 @@ class BHT{
 		document.getElementById("myTable").rows[predPos+1].cells[7].innerHTML = this.getPercent(predPos);
 		
 		
-		/*
-		if ((predicao <= 1 && resultado == "N") || (predicao >= 2 && resultado == "T")){
-			this.hits[this.historico[histIndex]] += 1;
-		} else {
-			this.miss[this.historico[histIndex]] += 1;
-		}
-
-		var posCounter = this.historico[histIndex];
-
-		if (resultado == "T"){
-			if (document.getElementById("bitch").value == 2){
-				if (predicao == 0){
-					this.counter[posCounter] = 1;
-				} else{
-					this.counter[posCounter] = 3;
-				}
-			} else {
-				this.counter = 1;
-			}
-			this.historico[histIndex] = (this.historico[histIndex] >>> 1) + Math.pow(2, (this.n - 1));
-		} else {
-			if(document.getElementById("bitch").value == 2){
-				if (predicao == 3){
-					this.counter[posCounter] = 2;
-				} else{
-					this.counter[posCounter] = 0;
-				}
-			} else{
-				this.counter = 0;
-			}
-			this.historico[histIndex] = (this.historico[histIndex] >>> 1);
-		}
-		console.log("Predicao: "+predicao);
-		(predicao<=1) ? predicao='N' : predicao='T';
-		hist = "";
-		console.log("Bitch: "+this.bitch);
-		for(let i = 0; i < this.bitch; i++){
-			(this.historico[histIndex][i] == '0') ? hist+="N," : hist+="T,";
-		}
-		let hist2 = "";
-		for(let i = 0; i < hist.length-1; i++){
-			hist2+=hist[i];
-		}
-		console.log(hist2);
-		document.getElementById("myTable").rows[histIndex+1].cells[1].innerHTML=endereco;
-		document.getElementById("myTable").rows[histIndex+1].cells[2].innerHTML=this.historico[histIndex];
-		document.getElementById("myTable").rows[histIndex+1].cells[3].innerHTML=resultado;
-		document.getElementById("myTable").rows[histIndex+1].cells[4].innerHTML=predicao;
-		*/
 	}
 
 	getPercent(predPos){
@@ -180,19 +131,6 @@ function dec2bin(dec) {
 	var binario = dec >= 0 ? dec.toString(2) : (~dec).toString(2);
 	return ("0".repeat(this.n) + binario).substr(-this.n);
 }
-
-/*document.getElementById('file').onchange = function(){
-	var file = this.files[0];
-	bht = new BHT(getElementById("m").value, getElementById("n").value);
-
-	var reader = new FileReader();
-	reader.onload = function(){
-		lineNumber = -1;
-		fileAsString = this.result.split('\n');
-	};
-	reader.readAsText(file);
-
-}*/
 
 function fileRead(){
 	let file = document.getElementById("file-id").files[0];
