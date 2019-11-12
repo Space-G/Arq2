@@ -3,8 +3,10 @@ class BHT{
 		this.m = m;
 		this.n = n;
 		this.tableSize = Math.pow(2, m);
+		this.estado = new Array(this.tableSize);
 		this.historico = new Array(this.tableSize);
-		(n == 1) ? this.historico.fill(1) : this.historico.fill(2);
+		this.historico.fill(-1);
+		(n == 1) ? this.estado.fill(1) : this.estado.fill(2);
 		this.hits = new Array(this.tableSize);
 		this.hits.fill(0);
 		this.miss = new Array(this.tableSize);
@@ -14,12 +16,13 @@ class BHT{
 
 	doTheThing(endereco, resultado){
 		let predPos = (parseInt(endereco, 16) >>> 2) % this.tableSize;
-		let predicao = this.historico[predPos];
+		let predicao = this.estado[predPos];
+		/*
 		let allHist = "";
 		for (let b = 0; b<this.tableSize; b++){
-			allHist+=dec2bin(this.historico[b]);
+			allHist+=dec2bin(this.estado[b]);
 			allHist+=' ';
-		}
+		}*/
 		
         let hueAux = 116;
 
@@ -32,9 +35,10 @@ class BHT{
 			//errou a predicao
 			else {
 				this.miss[predPos]++;
-				(predicao == 0) ? this.historico[predPos] = 1 : this.historico[predPos] = 0;
+				(predicao == 0) ? this.estado[predPos] = 1 : this.estado[predPos] = 0;
                 hueAux = 0;
 			}
+			(this.estado[predPos] == 0) ? this.historico[predPos] = 'N' : this.historico[predPos] = 'T';
 		}
 		//preditor de 2 bits
 		else {
@@ -42,10 +46,10 @@ class BHT{
 			if ((predicao <= 1 && (resultado == "N" || resultado == 0)) || (predicao >= 2 && (resultado == "T" || resultado == 1))){
 				this.hits[predPos]++;
 				if (predicao == 1){
-					this.historico[predPos] = 0;
+					this.estado[predPos] = 0;
 				}
 				else if (predicao == 2){
-					this.historico[predPos] = 3;
+					this.estado[predPos] = 3;
 				}
 			}
 			//errou a predicao
@@ -53,11 +57,18 @@ class BHT{
                 hueAux = 0;
 				this.miss[predPos]++;
 				if (predicao <= 1){
-					this.historico[predPos]++;
+					this.estado[predPos]++;
 				}
 				else {
-					this.historico[predPos]--;
+					this.estado[predPos]--;
 				}
+			}
+			if(this.historico[predPos] == -1){
+				(this.estado[predPos] == 1) ? this.historico[predPos] = 'N' : this.historico[predPos] = 'T';
+			}
+			else {
+				let aux = this.historico[predPos][0];
+				(this.estado[predPos] < predicao || this.estado[predPos] === 0) ? this.historico[predPos] = "N," + aux : this.historico[predPos] = "T," + aux;
 			}
 		}
 		if (predicao == 0){
@@ -76,34 +87,37 @@ class BHT{
 			predicao = "errado";
 		}
 		
-		let historico = this.historico[predPos];
+		let estado = this.estado[predPos];
 		
-		if (historico == 2){
-			historico = "T,N";
+		if (estado == 2){
+			estado = "T*";
 		}
-		else if (historico == 3){
-			historico = "T,T";
+		else if (estado == 3){
+			estado = "T";
 		}
-		else if (historico == 0 && this.n == 1){
-			historico = "N";
+		else if (estado == 0 && this.n == 1){
+			estado = "N";
 		}
-		else if (historico == 1 && this.n == 1){
-			historico = "T";
+		else if (estado == 1 && this.n == 1){
+			estado = "T";
 		}
-		else if (historico == 0){
-			historico = "N,N";
+		else if (estado == 0){
+			estado = "N";
 		}
-		else if (historico == 1){
-			historico = "N,T";
+		else if (estado == 1){
+			estado = "N*";
 		}
+		
+		(resultado == "N" || resultado == 0) ? resultado = "N" : resultado = "T";
 		
 		document.getElementById("myTable").rows[predPos+1].cells[1].innerHTML = endereco;
-		document.getElementById("myTable").rows[predPos+1].cells[2].innerHTML = historico;
-		document.getElementById("myTable").rows[predPos+1].cells[3].innerHTML = resultado;
-		document.getElementById("myTable").rows[predPos+1].cells[4].innerHTML = predicao;
-		document.getElementById("myTable").rows[predPos+1].cells[5].innerHTML = this.hits[predPos];
-		document.getElementById("myTable").rows[predPos+1].cells[6].innerHTML = this.miss[predPos];
-		document.getElementById("myTable").rows[predPos+1].cells[7].innerHTML = this.getPercent(predPos);
+		document.getElementById("myTable").rows[predPos+1].cells[2].innerHTML = this.historico[predPos];
+		document.getElementById("myTable").rows[predPos+1].cells[3].innerHTML = estado;
+		document.getElementById("myTable").rows[predPos+1].cells[4].innerHTML = resultado;
+		document.getElementById("myTable").rows[predPos+1].cells[5].innerHTML = predicao;
+		document.getElementById("myTable").rows[predPos+1].cells[6].innerHTML = this.hits[predPos];
+		document.getElementById("myTable").rows[predPos+1].cells[7].innerHTML = this.miss[predPos];
+		document.getElementById("myTable").rows[predPos+1].cells[8].innerHTML = this.getPercent(predPos);
         window.clearTimeout(this.animationQueue[predPos]);
         this.animationQueue[predPos] = window.setTimeout("animar("+hueAux+", 50, "+ (predPos+1) +")",7);
 		
@@ -115,11 +129,11 @@ class BHT{
 	}
 
 	getHits(){
-		return this.hits[this.historico[histIndex]];
+		return this.hits[this.estado[histIndex]];
 	}
 
 	getMiss(){
-		return this.miss[this.historico[histIndex]];
+		return this.miss[this.estado[histIndex]];
 	}
 }
 
@@ -185,6 +199,7 @@ function go(){
 		let cell6 = row.insertCell(5);
 		let cell7 = row.insertCell(6);
 		let cell8 = row.insertCell(7);
+		let cell9 = row.insertCell(8);
 		
 		let index = dec2bin(i).toString();
 		
@@ -200,6 +215,15 @@ function go(){
 		cell6.innerHTML = "";
 		cell7.innerHTML = "";
 		cell8.innerHTML = "";
+		cell9.innerHTML = "";
+	}
+}
+function goBack(){
+	location.reload()
+}
+function skipAll(){
+	while (!done) {
+		updateRowInTable();
 	}
 }
 function updateRowInTable(){
