@@ -9,8 +9,10 @@ class BHT{
 		(n == 1) ? this.estado.fill(1) : this.estado.fill(2);
 		this.hits = new Array(this.tableSize);
 		this.hits.fill(0);
+		this.hitsGeral = 0;
 		this.miss = new Array(this.tableSize);
 		this.miss.fill(0);
+		this.missGeral = 0;
         this.animationQueue = new Array(this.tableSize);
 	}
 
@@ -31,10 +33,12 @@ class BHT{
 			//acertou a predicao
 			if ((predicao == 0 && (resultado == "N" || resultado == 0))||(predicao == 1 && (resultado == "T" || resultado == 1))){
 				this.hits[predPos]++;
+                this.hitsGeral++;
 			}
 			//errou a predicao
 			else {
 				this.miss[predPos]++;
+				this.missGeral++;
 				(predicao == 0) ? this.estado[predPos] = 1 : this.estado[predPos] = 0;
                 hueAux = 0;
 			}
@@ -45,6 +49,7 @@ class BHT{
 			//acertou a predicao
 			if ((predicao <= 1 && (resultado == "N" || resultado == 0)) || (predicao >= 2 && (resultado == "T" || resultado == 1))){
 				this.hits[predPos]++;
+				this.hitsGeral++;
 				if (predicao == 1){
 					this.estado[predPos] = 0;
 				}
@@ -56,6 +61,7 @@ class BHT{
 			else {
                 hueAux = 0;
 				this.miss[predPos]++;
+				this.missGeral++;
 				if (predicao <= 1){
 					this.estado[predPos]++;
 				}
@@ -124,6 +130,14 @@ class BHT{
 		
 	}
 
+    getPercentGeral(){
+        if ((this.missGeral + this.hitsGeral) == 0){
+            return "Incalculável";
+        } else {
+            return parseInt((this.hitsGeral * 100) / (this.hitsGeral + this.missGeral));
+        }
+    }
+
 	getPercent(predPos){
 		return parseInt(this.hits[predPos]/(this.hits[predPos] + this.miss[predPos])*100);
 	}
@@ -159,8 +173,9 @@ function fileRead(){
 
 function computeLine(){ // não chamem isso, front!!!!!!!
 	var line = fileAsString[lineNumber].split(' ');
-    console.log("Linha : " + line + "\nComputado : " + line);
-	bht.doTheThing(line[0], line[1]);
+    if (line.length == 2){
+	    bht.doTheThing(line[0], line[1]);
+    }
 }
 
 function radio() {
