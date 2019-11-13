@@ -159,6 +159,7 @@ function fileRead(){
 
 function computeLine(){ // não chamem isso, front!!!!!!!
 	var line = fileAsString[lineNumber].split(' ');
+    console.log("Linha : " + line + "\nComputado : " + line);
 	bht.doTheThing(line[0], line[1]);
 }
 
