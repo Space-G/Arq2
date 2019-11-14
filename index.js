@@ -175,6 +175,12 @@ function computeLine(){ // não chamem isso, front!!!!!!!
 	var line = fileAsString[lineNumber].split(' ');
     if (line.length == 2){
 	    bht.doTheThing(line[0], line[1]);
+    } else {
+        done = true;
+	    let next = document.getElementById("but-next");
+	    let skip = document.getElementById("but-skip");
+	    next.hidden = "hidden";
+	    skip.hidden = "hidden";
     }
     document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + bht.getPercentGeral() + "%";
 }
