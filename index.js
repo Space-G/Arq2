@@ -176,6 +176,7 @@ function computeLine(){ // não chamem isso, front!!!!!!!
     if (line.length == 2){
 	    bht.doTheThing(line[0], line[1]);
     }
+    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + bht.getPercentGeral() + "%";
 }
 
 function radio() {
@@ -233,6 +234,7 @@ function go(){
 		cell8.innerHTML = "";
 		cell9.innerHTML = "";
 	}
+    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + bht.getPercentGeral();
 }
 function goBack(){
 	location.reload()
