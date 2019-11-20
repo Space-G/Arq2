@@ -174,7 +174,7 @@ function fileRead(){
 function computeLine(){ // não chamem isso, front!!!!!!!
 	var line = fileAsString[lineNumber].split(' ');
     if (line.length == 2){
-	    bht.doTheThing(line[0], line[1]);
+	    bht.doTheThing(line[0], line[1].charAt(0));
     } else {
         done = true;
 	    let next = document.getElementById("but-next");
