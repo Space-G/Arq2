@@ -3,8 +3,17 @@
 	font-family: 'Courier New', Courier, monospace;
 }
 
+h1 {
+	font-size: 40px !important;
+	font-weight: bold !important;
+	color: white !important;
+	font-family: monospace !important;
+	text-shadow: 2px 0 0 #000, -2px 0 0 #000, 0 2px 0 #000, 0 -2px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
+	margin-bottom: 150px !important;
+}
+
 .body {
-	margin-top: 100px;
+	margin-top: 0px !important;
 }
 
 .menu {
@@ -13,6 +22,10 @@
 
 .item {
 	margin-bottom: 5em;
+}
+
+.item-home {
+	margin-top: 300px;
 }
 
 .item-2 {
@@ -78,6 +91,29 @@ background-color: darkgray;
 }
 
 .botao:focus {
+	text-decoration: none !important;
+	outline: none !important;
+}
+
+.botao-home {
+	border: 1px solid black;
+	border-radius: 3px;
+	background-color: white;
+	color: black;
+	width: 150px;
+	height: 30px;
+}
+
+.botao-home:hover {
+	background-color: black;
+	color: white;
+}
+
+.botao-home:active {
+background-color: darkgray;
+}
+
+.botao-home:focus {
 	text-decoration: none !important;
 	outline: none !important;
 }

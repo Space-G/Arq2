@@ -132,7 +132,7 @@ class BHT{
 
     getPercentGeral(){
         if ((this.missGeral + this.hitsGeral) == 0){
-            return "Incalculável";
+            return "INCALCULÁVEL";
         } else {
             return parseInt((this.hitsGeral * 100) / (this.hitsGeral + this.missGeral));
         }
@@ -182,7 +182,7 @@ function computeLine(){ // não chamem isso, front!!!!!!!
 	    next.hidden = "hidden";
 	    skip.hidden = "hidden";
     }
-    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + bht.getPercentGeral() + "%";
+    document.getElementById("p_texto").innerHTML = "PORCENTAGEM GERAL: " + bht.getPercentGeral() + "%";
 }
 
 function radio() {
@@ -240,7 +240,7 @@ function go(){
 		cell8.innerHTML = "";
 		cell9.innerHTML = "";
 	}
-    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + bht.getPercentGeral();
+    document.getElementById("p_texto").innerHTML = "PORCENTAGEM GERAL: " + bht.getPercentGeral();
 }
 function goBack(){
 	location.reload()
