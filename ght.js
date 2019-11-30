@@ -266,6 +266,37 @@
 //
 //
 
+class GHT{
+    constructor(indexBitsCount, patternBitsCount, counterBits){
+        this.historyTable = new HashHistoryTable(indexBitsCount, patternBitsCount);
+        this.patternTable = new PatternTable(patternBitsCount, counterBits);
+        this.hits = 0;
+        this.misses = 0;
+    }
+
+    doTheThing(memoryAddress, resultadoNaoParseado){
+        let resultado = (resultadoNaoParseado == 1 || resultadoNaoParseado == 'T');
+        let pattern = this.historyTable.getPattern(memoryAddress);
+
+        if (resultado == this.patternTable.getPrediction(pattern)){
+            this.hits++;
+        } else{
+            this.misses++;
+        }
+
+        this.patternTable.updatePredictor(pattern, resultado);
+        this.historyTable.updatePattern(memoryAddress, resultado);
+    }
+
+    getHistoryTable(){
+        return this.historyTable;
+    }
+
+    getPatternTable(){
+        return this.patternTable;
+    }
+}
+
 class HashHistoryTable{
     constructor(indexBitsCount, patternBitsCount){
         this.tableSize = Math.pow(2, indexBitsCount);
@@ -294,7 +325,7 @@ class HashHistoryTable{
     updatePattern(memoryAddress, lastChoice){
         let index = parseInt(memoryAddress, 16) % this.tableSize; // faz o hash
         this.table[index][0] = memoryAddress;
-        this.table[index][1] = ((this.table[index][1] << 1) % this.patternMax) + lastChoice;
+        this.table[index][1] = ((this.table[index][1] << 1) % this.patternMax) + (lastChoice ? 1 : 0);
     }
 }
 
@@ -311,7 +342,7 @@ class PatternTable{
         return this.table[pattern][1].getPrediction();
     }
 
-    gerPredictionString(pattern){
+    getPredictionString(pattern){
         return this.table[pattern][1].getString();
     }
 
@@ -357,7 +388,11 @@ class Counter{ // os preditores em sí
     }
 
     getPrediction(){
-        return this.counter;
+        if (this.bits == 2) {
+            return (this.counter > 1);
+        } else{
+            return (this.counter > 0);
+        }
     }
 
     update(choice){
