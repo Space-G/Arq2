@@ -295,6 +295,14 @@ class GHT{
     getPatternTable(){
         return this.patternTable;
     }
+
+    getPercent(){
+        if ((this.misses + this.hits) == 0){
+            return "Incalculável";
+        } else {
+            return parseInt((this.hits * 100) / (this.hits + this.misses));
+        }
+    }
 }
 
 class HashHistoryTable{
