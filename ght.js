@@ -263,8 +263,6 @@
 //         element.style.backgroundColor = 'hsl('+hue+',100%,90%)';
 //     } else { ght.animationQueue[elementRow -1] = window.setTimeout(otherStr,5);}
 // }
-//
-//
 
 class GHT{
     constructor(indexBitsCount, patternBitsCount, counterBits){
@@ -422,4 +420,123 @@ class Counter{ // os preditores em sí
             }
         }
     }
+}
+
+var fileAsString = Array();
+var lineNumber = -1;
+let ght;
+var done = false;
+
+function dec2bin(dec) {
+    var binario = dec >= 0 ? dec.toString(2) : (~dec).toString(2);
+    return ("0".repeat(this.n) + binario).substr(-this.n);
+}
+
+function fileRead(){
+    let file = document.getElementById("file-id").files[0];
+    let reader = new FileReader();
+    reader.onload = function(){
+        lineNumber = -1;
+        fileAsString = this.result.split('\n');
+    };
+    reader.readAsText(file);
+}
+
+function computeLine(){ // não chamem isso, front!!!!!!!
+    var line = fileAsString[lineNumber].split(' ');
+    if (line.length == 2){
+        ght.doTheThing(line[0], line[1].charAt(0));
+    } else {
+        done = true;
+        let next = document.getElementById("but-next");
+        let skip = document.getElementById("but-skip");
+        next.hidden = "hidden";
+        skip.hidden = "hidden";
+    }
+    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + ght.getPercentGeral() + "%";
+}
+
+function radio() {
+    var rbs = document.getElementsByName('n');
+    for (var i=0, iLen=rbs.length; i<iLen; i++) {
+        if (rbs[i].checked) {
+            return rbs[i].value;
+        }
+    }
+}
+
+function go(){
+    //mudar os hidden;
+    let menu1 = document.getElementById("menu-1");
+    let menu2 = document.getElementById("menu-2");
+    menu1.hidden = "hidden";
+    menu2.hidden = "";
+    let table = document.getElementById("myTable");
+    let m = document.getElementById("m").value;
+    let n = radio();
+    let m2 = 1;
+
+    fileRead();
+
+    ght = new GHT(m, n);
+    for (let i=0; i<m; i++){
+        m2*=2;
+    }
+
+    for (let i=0; i<m2; i++){
+        let row = table.insertRow(table.length);
+        let cell1 = row.insertCell(0);
+        let cell2 = row.insertCell(1);
+        let cell3 = row.insertCell(2);
+        let cell4 = row.insertCell(3);
+        let cell5 = row.insertCell(4);
+        let cell6 = row.insertCell(5);
+        let cell7 = row.insertCell(6);
+        let cell8 = row.insertCell(7);
+        let cell9 = row.insertCell(8);
+
+        let index = dec2bin(i).toString();
+
+        while (index.length < m){
+            index = "0" + index;
+        }
+
+        cell1.innerHTML = index;
+        cell2.innerHTML = "";
+        cell3.innerHTML = "";
+        cell4.innerHTML = "";
+        cell5.innerHTML = "";
+        cell6.innerHTML = "";
+        cell7.innerHTML = "";
+        cell8.innerHTML = "";
+        cell9.innerHTML = "";
+    }
+    document.getElementById("p_texto").innerHTML = "Porcentagem geral: " + ght.getPercentGeral();
+}
+function goBack(){
+    location.reload()
+}
+function skipAll(){
+    while (!done) {
+        updateRowInTable();
+    }
+}
+function updateRowInTable(){
+    lineNumber += 1;
+    if (lineNumber >= fileAsString.length){
+        done = true;
+    } else {
+        computeLine();
+        done = false;
+    }
+}
+function animar(hue, ilum, elementRow){
+    let element = document.getElementById("myTable").rows[elementRow];
+    ilum += 0.5;
+    let str = 'hsl(' + hue + ',100%,' + ilum + '%)';
+    element.style.backgroundColor = str;
+    let otherStr = "animar("+hue+", "+ilum+", "+elementRow+")";
+    if (ilum >= 90){
+        element.style.backgroundColor = 'hsl('+hue+',100%,90%)';
+    } else { ght.animationQueue[elementRow -1] = window.setTimeout(otherStr,5);}
 }
