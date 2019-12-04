@@ -203,6 +203,7 @@ function go(){
 	let table = document.getElementById("myTable");
 	let m = document.getElementById("m").value;
 	let n = radio();
+	console.log(n);
 	let m2 = 1;
 	
 	fileRead();

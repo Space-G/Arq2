@@ -27,12 +27,12 @@
 			</div>
 			<div class="item">
 				<div class="sub-item">Digite o tamanho do histórico:</div>
-				<div><input class="input-number" id="m" type="number" value="4" min="0"></div>
+				<div><input class="input-number" id="n" type="number" value="4" min="0"></div>
 			</div>
 			<div class="item">
 				<div class="sub-item">Escolha a quantidade de bits do preditor:</div>
-				<div><input type="radio" name="n" value="1"> 1<br>
-					 <input type="radio" name="n" value="2" checked="checked"> 2<br></div>
+				<div><input type="radio" name="bit" value="1"> 1<br>
+					 <input type="radio" name="bit" value="2" checked="checked"> 2<br></div>
 			</div>
 			<div class="item">
 				<div class="sub-item">Selecione o arquivo a ser utilizado:</div>
@@ -47,7 +47,7 @@
 			<div class="item">
 				<div class="sub-item negrito">Tabela de resultados</div>
 				<div>
-					<table class="table" id="myTable">
+					<table class="table" id="histTable">
 						<tr>
 							<td class="negrito">HASH</td>
 							<td class="negrito">ENDEREÇO DA MEMÓRIA</td>
@@ -56,7 +56,7 @@
 					</table>
 				</div>
 				<div>
-					<table class="table" id="myTable">
+					<table class="table" id="patternTable">
 						<tr>
 							<td class="negrito">PADRÃO DO HISTÓRICO</td>
 							<td class="negrito">PREDITO</td>
