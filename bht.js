@@ -198,8 +198,8 @@ function go(){
 	//mudar os hidden;
 	let menu1 = document.getElementById("menu-1");
 	let menu2 = document.getElementById("menu-2");
-	menu1.hidden = "hidden";
-	menu2.hidden = "";
+	menu1.hidden = true;
+	menu2.hidden = false;
 	let table = document.getElementById("myTable");
 	let m = document.getElementById("m").value;
 	let n = radio();
@@ -270,5 +270,3 @@ function animar(hue, ilum, elementRow){
         element.style.backgroundColor = 'hsl('+hue+',100%,90%)';
     } else { bht.animationQueue[elementRow -1] = window.setTimeout(otherStr,5);}
 }
-
-

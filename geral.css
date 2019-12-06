@@ -77,8 +77,27 @@ table, td{
 	border-radius: 3px;
 	background-color: white;
 	color: black;
-	width: 70px;
-	height: 30px;
+	width: 5em;
+	height: 2em;
+}
+
+.botao-i {
+	width: 2em;
+	border-radius: 1em;
+}
+
+.botao-i div {
+	visibility: hidden;
+	position: absolute;
+	margin-top: 10px;
+	border: 1px solid black;
+	border-radius: 10px;
+	background-color: white;
+	padding: 0.2em;
+}
+
+.botao-i:hover div {
+	visibility: visible;
 }
 
 .botao:hover {
@@ -129,4 +148,16 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
  
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.col1 {
+	text-align: right;
+}
+.col2 {
+	padding-top: 0.7em;
+	text-align: left;
+}
+
+.float {
+	display: inline-block !important;
 }

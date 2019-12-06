@@ -17,26 +17,75 @@
 	<div class="body container">
 		<div class="menu">
 			<div class="item">
-				<h1>PREDITOR GHT</h1>
+				<h1 class="float">PREDITOR GHT</h1>
+				<button class="botao botao-i float">i
+					<div>
+						<p>Preditor Global de desvios (GHT) cria uma tabela de histórico, indexada pelos (m) últimos dígitos do PC e uma tabela global de preditores, indexada pelos históricos da tabela anterior.</p>
+					</div>
+				</button>
 			</div>
-		</div>
+		<div>
 		<div class="menu" id="menu-1">
 			<div class="item">
 				<div class="sub-item">Digite a quantidade de bits de PC a ser usada:</div>
-				<div><input class="input-number" id="m" type="number" value="3" min="0"></div>
+				<div>
+					<input class="input-number" id="m" type="number" value="3" min="0">
+					<button class="botao botao-i">i
+						<div>
+							<p>
+								A quantidade de bits de PC a ser usada (m) determina o tamanho da primeira tabela
+								<br>
+								a uma razão de 2<sup>m</sup>.
+							</p>
+						</div>
+					</button>
+				</div>
 			</div>
 			<div class="item">
 				<div class="sub-item">Digite o tamanho do histórico:</div>
-				<div><input class="input-number" id="n" type="number" value="4" min="0"></div>
+				<div>
+					<input class="input-number" id="n" type="number" value="4" min="0">
+					<button class="botao botao-i">i
+						<div>
+							<p>
+								O tamanho do histórico a ser usado (n), em bits, determina o tamanho da segunda tabela
+								<br>
+								a uma razão de 2<sup>n</sup>.
+							</p>
+						</div>
+					</button>
+				</div>
 			</div>
-			<div class="item">
+			<div class="item row">
 				<div class="sub-item">Escolha a quantidade de bits do preditor:</div>
-				<div><input type="radio" name="bit" value="1"> 1<br>
-					 <input type="radio" name="bit" value="2" checked="checked"> 2<br></div>
+				<div class = "column col-sm-6 col1">
+					<input type="radio" name="bit" value="1"> 1<br>
+					<input type="radio" name="bit" value="2" checked="checked"> 2<br>
+				</div>
+				<div class="column col-sm-6 col2">
+					<button class="botao botao-i">i
+						<div>
+							<p>A quantidade de bits do preditor (n) pode influenciar na precisão das predições.</p>
+						</div>
+					</button>
+				</div>
 			</div>
 			<div class="item">
 				<div class="sub-item">Selecione o arquivo a ser utilizado:</div>
-				<div><input class="input-file" id="file-id" type="file"></div>
+				<div>
+					<input class="input-file float" id="file-id" type="file">
+					<button class="botao botao-i float">i
+						<div>
+							<p>
+								O arquivo deve ser texto, e cada linha deve apresentar o seguinte formato:
+								<br>
+								endereço do desvio seguido de um caractere T/1 para tomado
+								<br>
+								ou N/0 para não tomado, separados por espaço.
+							</p>
+						</div>
+					</button>
+				</div>
 			</div>
 			<div class="item">
 				<a href="home.html"><button class="botao">Voltar</button></a>
