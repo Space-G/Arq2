@@ -76,6 +76,9 @@ class HashHistoryTable{
 
 	getPattern(memoryAddress){
 		let index = parseInt(memoryAddress, 16) % this.tableSize; // faz o hash
+		if(this.patternBitsCount == 0){
+			return 0;
+		}
 		return this.table[index][1];
 	}
 
@@ -120,7 +123,6 @@ class PatternTable{
 class Counter{ // os preditores em sí
 	constructor(bits){
 		this.bits = bits;
-		console.log(bits);
 		if (this.bits == 2){
 			this.counter = 2;
 		} else{
@@ -209,12 +211,14 @@ function computeLine(){ // não chamem isso, front!!!!!!!
 		let executed = line[1].charAt(0);
 		let indexPattern = ght.getPatternIndex(address);
 		let prediction = ght.getPatternPrediction(address);
+
 		document.getElementById("patternTable").rows[indexPattern+1].cells[1].innerHTML = prediction;
 		ght.doTheThing(address, executed);
-		
+
 		let historyIndex = ght.getHistoryIndex(address);
 		let historyPattern = ght.getHistoryPattern(address);
-		
+		prediction = ght.patternTable.getPredictionString(indexPattern);
+
 		document.getElementById("histTable").rows[historyIndex+1].cells[1].innerHTML = address;
 		document.getElementById("histTable").rows[historyIndex+1].cells[2].innerHTML = historyPattern;
 		document.getElementById("patternTable").rows[indexPattern+1].cells[2].innerHTML = executed;
@@ -250,7 +254,6 @@ function go(){
 	let m = document.getElementById("m").value;
 	let n = document.getElementById("n").value;
 	let bit = radio();
-	console.log(bit);
 	let m2 = 1;
 	let n2 = 1;
 
